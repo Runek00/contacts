@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <script src="/webjars/htmx.org/1.9.2/dist/htmx.min.js"></script>
+    <script src="/webjars/htmx.org/1.9.3/dist/htmx.min.js"></script>
     <meta charset="UTF-8">
 </head>
-<body><h1>It's a todo list!</h1>
-<form hx-post="/" hx-target="#todo-list" hx-swap="afterbegin">
-    <input type="text" placeholder="What should I do?" id="itemName" name="itemName" maxlength="100">
-    <button>Submit</button>
+<body>
+<header>
+    <h1>
+        It's a contacts app!
+        Like they made in hypermedia.systems!
+    </h1>
+</header>
+<form action="/contacts" method="get" class="tool-bar">
+    <label for="search">Search Term</label>
+    <input id="search" type="search" name="q" th:value="${q}"/>
+    <input type="submit" value="Search"/>
+    <table>
+        <thead>
+        <tr>
+            <th>First</th>
+            <th>Last</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contact: ${contacts}">
+            <td th:text="${contact.first}"/>
+            <td th:text="${contact.last}"/>
+            <td th:text="${contact.phone}"/>
+            <td th:text="${contact.email}"/>
+            <td><a th:href="/contacts/${contact.id}/edit">Edit</a>
+                <a th:href="/contacts/${contact.id}">View</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <a href="/contacts/new">Add Contact</a> (1)
+    </p>
 </form>
-<table>
-    <thead>
-    <tr>
-        <th>
-            completed
-        </th>
-        <th>
-            task
-        </th>
-    </tr>
-    </thead>
-    <tbody id="todo-list" name="todo-list">
-    <tr th:each="item: ${items}" th:include="todo-line :: todo-line(item)"/>
-    </tbody>
-</table>
 </body>
 </html>

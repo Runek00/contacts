@@ -1,4 +1,4 @@
-package com.example.todo.config;
+package com.runek.contacts;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class DBConfig {
     public DataSource dataSourceTest() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .setName("todo")
+                .setName("contact")
                 .addScript("base.sql")
                 .build();
     }
