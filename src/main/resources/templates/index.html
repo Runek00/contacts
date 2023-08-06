@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <script src="/webjars/htmx.org/1.9.2/dist/htmx.min.js"></script>
+    <meta charset="UTF-8">
+</head>
+<body><h1>It's a todo list!</h1>
+<form hx-post="/" hx-target="#todo-list" hx-swap="afterbegin">
+    <input type="text" placeholder="What should I do?" id="itemName" name="itemName" maxlength="100">
+    <button>Submit</button>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>
+            completed
+        </th>
+        <th>
+            task
+        </th>
+    </tr>
+    </thead>
+    <tbody id="todo-list" name="todo-list">
+    <tr th:each="item: ${items}" th:include="todo-line :: todo-line(item)"/>
+    </tbody>
+</table>
+</body>
+</html>
