@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<form th:action="|/contacts/${contact.id()}/edit|" method="post">
+    <fieldset>
+        <legend>Contact Values</legend>
+        <p>
+            <label for="email">Email</label>
+            <input name="email" id="email" type="email" placeholder="Email" th:value="${contact.email()}">
+            <span class="error" th:text="${contact.email()}"></span>
+        </p>
+        <p>
+            <label for="first_name">First Name</label>
+            <input name="first_name" id="first_name" type="text" placeholder="First Name" th:value="${contact.firstName()}">
+            <span class="error" th:text="${contact.firstName()}"></span>
+        </p>
+        <p>
+            <label for="last_name">Last Name</label>
+            <input name="last_name" id="last_name" type="text" placeholder="Last Name" th:value="${contact.lastName()}">
+            <span class="error" th:text="${contact.lastName()}"></span>
+        </p>
+        <p>
+            <label for="phone">Phone</label>
+            <input name="phone" id="phone" type="text" placeholder="Phone" th:value="${contact.phone()}">
+            <span class="error" th:text="${contact.phone()}"></span>
+        </p>
+        <button>Save</button>
+    </fieldset>
+</form>
+<form th:action="|/contacts/${contact.id()}/delete|" method="post">
+    <button>Delete Contact</button>
+</form>
+
+<p>
+    <a href="/contacts/">Back</a>
+</p>
+</body>
+</html>

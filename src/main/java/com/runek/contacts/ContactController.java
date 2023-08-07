@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ContactController {
@@ -33,7 +32,7 @@ public class ContactController {
     }
 
     @GetMapping("/contacts/{id}")
-    String viewContact(@PathVariable Long id,  Model model) {
+    String viewContact(@PathVariable Long id, Model model) {
         model.addAttribute("contact", contactRepository.findById(id).get());
         return "show";
     }
@@ -45,7 +44,7 @@ public class ContactController {
     }
 
     @PostMapping("/contacts/new")
-    String newContactPost(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    String newContactPost(HttpServletRequest request) {
         Contact c = new Contact(
                 null,
                 request.getParameter("first_name"),
@@ -54,10 +53,37 @@ public class ContactController {
                 request.getParameter("phone"));
         try {
             contactRepository.save(c);
-            redirectAttributes.addFlashAttribute("Contact added!");
             return "redirect:/contacts";
         } catch (Exception ex) {
             return "new_contact";
         }
+    }
+
+    @GetMapping("/contacts/{id}/edit")
+    String editContact(@PathVariable Long id, Model model) {
+        model.addAttribute("contact", contactRepository.findById(id).get());
+        return "edit";
+    }
+
+    @PostMapping("/contacts/{id}/edit")
+    String editContactPost(@PathVariable Long id, HttpServletRequest request) {
+        Contact c = new Contact(
+                id,
+                request.getParameter("first_name"),
+                request.getParameter("last_name"),
+                request.getParameter("email"),
+                request.getParameter("phone"));
+        try {
+            contactRepository.save(c);
+            return "redirect:/contacts";
+        } catch (Exception ex) {
+            return "edit";
+        }
+    }
+
+    @PostMapping("/contacts/{id}/delete")
+    String deleteContactPost(@PathVariable Long id) {
+        contactRepository.deleteById(id);
+        return "redirect:/contacts";
     }
 }
