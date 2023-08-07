@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <script src="/webjars/htmx.org/1.9.3/dist/htmx.min.js"></script>
     <meta charset="UTF-8">
 </head>
 <body>
@@ -27,17 +26,17 @@
         </thead>
         <tbody>
         <tr th:each="contact: ${contacts}">
-            <td th:text="${contact.first}"/>
-            <td th:text="${contact.last}"/>
-            <td th:text="${contact.phone}"/>
-            <td th:text="${contact.email}"/>
-            <td><a th:href="/contacts/${contact.id}/edit">Edit</a>
-                <a th:href="/contacts/${contact.id}">View</a></td>
+            <td th:text="${contact.firstName()}"/>
+            <td th:text="${contact.lastName()}"/>
+            <td th:text="${contact.phone()}"/>
+            <td th:text="${contact.email()}"/>
+            <td><a th:href="|/contacts/${contact.id()}/edit|">Edit</a>
+                <a th:href="|/contacts/${contact.id()}|">View</a></td>
         </tr>
         </tbody>
     </table>
     <p>
-        <a href="/contacts/new">Add Contact</a> (1)
+        <a href="/contacts/new">Add Contact</a>
     </p>
 </form>
 </body>
