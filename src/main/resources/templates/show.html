@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1 th:text="${contact.firstName()} + ' ' + ${contact.lastName()}"></h1>
+
+<div>
+    <div th:text="'Phone: '+ ${contact.phone()}"></div>
+    <div th:text="'Email: '+ ${contact.email()}"></div>
+</div>
+<p>
+    <a th:href="|/contacts/${contact.id()}/edit|">Edit</a>
+    <a href="/contacts">Back</a>
+</p>
+</body>
+</html>
