@@ -17,30 +17,30 @@
     <label for="search">Search Term</label>
     <input id="search" type="search" name="q" th:value="${q}"/>
     <input type="submit" value="Search"/>
-    <table>
-        <thead>
-        <tr>
-            <th>First</th>
-            <th>Last</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="contact: ${contacts}">
-            <td th:text="${contact.firstName()}"/>
-            <td th:text="${contact.lastName()}"/>
-            <td th:text="${contact.phone()}"/>
-            <td th:text="${contact.email()}"/>
-            <td><a th:href="|/contacts/${contact.id()}/edit|">Edit</a>
-                <a th:href="|/contacts/${contact.id()}|">View</a></td>
-        </tr>
-        </tbody>
-    </table>
-    <p>
-        <a href="/contacts/new">Add Contact</a>
-    </p>
 </form>
+<table>
+    <thead>
+    <tr>
+        <th>First</th>
+        <th>Last</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="contact: ${contacts}">
+        <td th:text="${contact.firstName()}"/>
+        <td th:text="${contact.lastName()}"/>
+        <td th:text="${contact.phone()}"/>
+        <td th:text="${contact.email()}"/>
+        <td><a th:href="|/contacts/${contact.id()}/edit|">Edit</a>
+            <a th:href="|/contacts/${contact.id()}|">View</a></td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    <a href="/contacts/new">Add Contact</a>
+</p>
 </body>
 </html>
