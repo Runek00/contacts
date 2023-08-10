@@ -3,7 +3,7 @@
 <head th:replace="index :: header">
     <title>Add new contact</title>
 </head>
-<body>
+<body hx-boost="true">
 <form action="/contacts/new" method="post">
     <fieldset>
         <legend>Contact Values</legend>

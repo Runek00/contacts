@@ -3,7 +3,7 @@
 <head th:replace="index :: header">
     <title>Show contact</title>
 </head>
-<body>
+<body hx-boost="true">
 <h1 th:text="${contact.firstName()} + ' ' + ${contact.lastName()}"></h1>
 
 <div>
