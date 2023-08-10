@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="index :: header">
+    <title>Edit a contact</title>
 </head>
 <body>
 <form th:action="|/contacts/${contact.id()}/edit|" method="post">
