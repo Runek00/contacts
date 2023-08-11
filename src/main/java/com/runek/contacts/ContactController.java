@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.regex.Pattern;
 
 @Controller
 public class ContactController {
@@ -41,7 +40,7 @@ public class ContactController {
     }
 
     @GetMapping("/contacts/new")
-    String newContact(HttpServletRequest request, Model model) {
+    String newContact(Model model) {
         model.addAttribute("contact", new Contact(null, null, null, null, null));
         return "new_contact";
     }
@@ -55,6 +54,10 @@ public class ContactController {
                 request.getParameter("email"),
                 request.getParameter("phone"));
         try {
+            String validationErrors = validateEmailFinal(null, request.getParameter("email"));
+            if (!"".equals(validationErrors)) {
+                throw new IllegalArgumentException(validationErrors);
+            }
             contactRepository.save(c);
             return "redirect:/contacts";
         } catch (Exception ex) {
@@ -77,6 +80,10 @@ public class ContactController {
                 request.getParameter("email"),
                 request.getParameter("phone"));
         try {
+            String validationErrors = validateEmailFinal(id, request.getParameter("email"));
+            if (!"".equals(validationErrors)) {
+                throw new IllegalArgumentException(validationErrors);
+            }
             contactRepository.save(c);
             return "redirect:/contacts";
         } catch (Exception ex) {
@@ -90,5 +97,42 @@ public class ContactController {
         RedirectView rView = new RedirectView("/contacts");
         rView.setStatusCode(HttpStatusCode.valueOf(303));
         return rView;
+    }
+
+    @GetMapping("/contacts/{id}/email")
+    @ResponseBody
+    String validateEmail(@PathVariable Long id, @RequestParam String email) {
+        return validateEmailInline(id, email);
+    }
+
+    private String validateEmailInline(Long id, String email) {
+        String error = "";
+        boolean repeats = contactRepository.findAll()
+                .stream()
+                .filter(c -> !c.id().equals(id))
+                .map(Contact::email)
+                .anyMatch(e -> e.equals(email));
+        if (repeats) {
+            error += "Email must be unique!\n";
+        }
+        return error;
+    }
+
+    private String validateEmailFinal(Long id, String email) {
+        String error = "";
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        if (Pattern.compile(regexPattern).matcher(email).matches()) {
+            error += "Wrong email pattern!\n";
+        }
+        boolean repeats = contactRepository.findAll()
+                .stream()
+                .filter(c -> !c.id().equals(id))
+                .map(Contact::email)
+                .anyMatch(e -> e.equals(email));
+        if (repeats) {
+            error += "Email must be unique!\n";
+        }
+        return error;
     }
 }
