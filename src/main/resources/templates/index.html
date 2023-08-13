@@ -39,12 +39,13 @@
     </tr>
     <tr th:if="${contacts.size() == 10}">
         <td colspan="5" style="text-align: center">
-            <button hx-target="closest tr"
-                    hx-swap="outerHTML"
-                    hx-select="tbody > tr"
-                    th:hx-get="|/contacts?page=${page+1}|">
+            <span hx-target="closest tr"
+                  hx-trigger="revealed"
+                  hx-swap="outerHTML"
+                  hx-select="tbody > tr"
+                  th:hx-get="|/contacts?page=${page+1}|">
                 Load More
-            </button>
+            </span>
         </td>
     </tr>
     </tbody>
