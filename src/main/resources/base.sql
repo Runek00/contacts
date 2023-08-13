@@ -7,6 +7,29 @@ create table contact(
                     );
 
 insert into contact(first_name, last_name, email, phone) values
-('q','w','e@r.t', '123456'),
-('a','s','d@f.g', '234567'),
-('z','x','c@v.b', '345678');
+('John', 'Doe', 'john.doe@example.com', '123-456-7890'),
+('Jane', 'Smith', 'jane.smith@example.com', '234-567-8901'),
+('Peter', 'Jones', 'peter.jones@example.com', '345-678-9002'),
+('Mary', 'Brown', 'mary.brown@example.com', '456-789-0003'),
+('David', 'Williams', 'david.williams@example.com', '567-890-0004'),
+('Elizabeth', 'Taylor', 'elizabeth.taylor@example.com', '678-900-0005'),
+('Michael', 'Jackson', 'michael.jackson@example.com', '789-000-0006'),
+('Jennifer', 'Lopez', 'jennifer.lopez@example.com', '890-000-0007'),
+('Will', 'Smith', 'will.smith@example.com', '900-000-0008'),
+('Angelina', 'Jolie', 'angelina.jolie@example.com', '000-000-0009'),
+('Brad', 'Pitt', 'brad.pitt@example.com', '100-000-0010'),
+('Tom', 'Hanks', 'tom.hanks@example.com', '111-000-0011'),
+('Scarlett', 'Johansson', 'scarlett.johansson@example.com', '122-000-0012'),
+('Leonardo', 'DiCaprio', 'leonardo.dicaprio@example.com', '133-000-0013'),
+('Dwayne', 'Johnson', 'dwayne.johnson@example.com', '144-000-0014'),
+('Ryan', 'Reynolds', 'ryan.reynolds@example.com', '155-000-0015'),
+('Ben', 'Affleck', 'ben.affleck@example.com', '166-000-0016'),
+('Matt', 'Damon', 'matt.damon@example.com', '177-000-0017'),
+('Chris', 'Evans', 'chris.evans@example.com', '188-000-0018'),
+('Chris', 'Hemsworth', 'chris.hemsworth@example.com', '199-000-0019'),
+('Robert', 'Downey Jr.', 'robert.downey.jr@example.com', '200-000-0020'),
+('Mark', 'Wahlberg', 'mark.wahlberg@example.com', '211-000-0021'),
+('Tom', 'Cruise', 'tom.cruise@example.com', '222-000-0022'),
+('Will', 'Ferrell', 'will.ferrell@example.com', '233-000-0023'),
+('Kevin', 'Hart', 'kevin.hart@example.com', '244-000-0024'),
+('Dwayne', 'The Rock', 'dwayne.therock@example.com', '255-000-0025');

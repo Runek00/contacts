@@ -2,12 +2,15 @@ package com.runek.contacts;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Controller
@@ -28,20 +31,30 @@ public class ContactController {
     @GetMapping("/contacts")
     String contacts(HttpServletRequest request, Model model) {
         String q = request.getParameter("q");
+        q = q == null ? "" : q;
+        int page = Integer.parseInt(request.getParameterMap().getOrDefault("page", new String[]{"0"})[0]);
         model.addAttribute("q", q);
-        model.addAttribute("contacts", contactRepository.findAll().stream().filter(c -> c.firstName().contains(q == null ? "" : q)).toList());
+        model.addAttribute("page", page);
+        model.addAttribute(
+                "contacts",
+                contactRepository.findAllByFirstName(q, 10, page * 10));
         return "index";
     }
 
     @GetMapping("/contacts/{id}")
     String viewContact(@PathVariable Long id, Model model) {
-        model.addAttribute("contact", contactRepository.findById(id).get());
+        model.addAttribute(
+                "contact",
+                contactRepository.findById(id)
+                        .orElse(new Contact(null, null, null, null, null)));
         return "show";
     }
 
     @GetMapping("/contacts/new")
     String newContact(Model model) {
-        model.addAttribute("contact", new Contact(null, null, null, null, null));
+        model.addAttribute(
+                "contact",
+                new Contact(null, null, null, null, null));
         return "new_contact";
     }
 
@@ -67,12 +80,15 @@ public class ContactController {
 
     @GetMapping("/contacts/{id}/edit")
     String editContact(@PathVariable Long id, Model model) {
-        model.addAttribute("contact", contactRepository.findById(id).get());
+        model.addAttribute(
+                "contact",
+                contactRepository.findById(id)
+                        .orElse(new Contact(null, null, null, null, null)));
         return "edit";
     }
 
     @PostMapping("/contacts/{id}/edit")
-    String editContactPost(@PathVariable Long id, HttpServletRequest request) {
+    String editContactPost(@PathVariable Long id, HttpServletRequest request, Model model) {
         Contact c = new Contact(
                 id,
                 request.getParameter("first_name"),
@@ -87,6 +103,7 @@ public class ContactController {
             contactRepository.save(c);
             return "redirect:/contacts";
         } catch (Exception ex) {
+            model.addAttribute("contact", c);
             return "edit";
         }
     }

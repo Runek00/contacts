@@ -13,7 +13,7 @@
                    th:value="${contact.email()}"
                    th:hx-get="|/contacts/${contact.id()}/email|"
                    hx-target="next .error"
-            hx-trigger="change, keyup changed delay:200ms">
+                   hx-trigger="change, keyup changed delay:200ms">
             <span class="error"></span>
         </p>
         <p>
