@@ -9,7 +9,7 @@
         <legend>Contact Values</legend>
         <p>
             <label for="email">Email</label>
-            <input name="contact.email" id="email" type="email" placeholder="Email"
+            <input name="email" id="email" type="email" placeholder="Email"
                    th:value="${contact.email()}"
                    th:hx-get="|/contacts/${contact.id()}/email|"
                    hx-target="next .error"
@@ -18,18 +18,18 @@
         </p>
         <p>
             <label for="first_name">First Name</label>
-            <input name="contact.first_name" id="first_name" type="text" placeholder="First Name"
+            <input name="first_name" id="first_name" type="text" placeholder="First Name"
                    th:value="${contact.firstName()}">
             <span class="error"></span>
         </p>
         <p>
             <label for="last_name">Last Name</label>
-            <input name="contact.last_name" id="last_name" type="text" placeholder="Last Name" th:value="${contact.lastName()}">
+            <input name="last_name" id="last_name" type="text" placeholder="Last Name" th:value="${contact.lastName()}">
             <span class="error"></span>
         </p>
         <p>
             <label for="phone">Phone</label>
-            <input name="contact.phone" id="phone" type="text" placeholder="Phone" th:value="${contact.phone()}">
+            <input name="phone" id="phone" type="text" placeholder="Phone" th:value="${contact.phone()}">
             <span class="error"></span>
         </p>
         <button>Save</button>
