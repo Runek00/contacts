@@ -42,6 +42,13 @@ public class ContactController {
         }
     }
 
+    @GetMapping("/contacts/count")
+    @ResponseBody
+    String contactsCount() {
+        long count = contactRepository.count();
+        return "(" + count + " total contacts)";
+    }
+
     @GetMapping("/contacts/{id}")
     String viewContact(@PathVariable Long id, Model model) {
         model.addAttribute(
