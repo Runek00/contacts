@@ -117,11 +117,16 @@ public class ContactController {
     }
 
     @DeleteMapping("/contacts/{id}")
-    RedirectView deleteContactPost(@PathVariable Long id) {
+    @ResponseBody
+    Object deleteContactPost(@PathVariable Long id, HttpServletRequest request) {
         contactRepository.deleteById(id);
-        RedirectView rView = new RedirectView("/contacts");
-        rView.setStatusCode(HttpStatusCode.valueOf(303));
-        return rView;
+        if ("delete-btn".equals(request.getHeader("HX-Trigger"))) {
+            RedirectView rView = new RedirectView("/contacts");
+            rView.setStatusCode(HttpStatusCode.valueOf(303));
+            return rView;
+        } else {
+            return "";
+        }
     }
 
     @GetMapping("/contacts/{id}/email")
