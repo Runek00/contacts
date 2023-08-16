@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Arrays;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Controller
 public class ContactController {
@@ -40,6 +43,15 @@ public class ContactController {
         } else {
             return "rows";
         }
+    }
+
+    @DeleteMapping("/contacts")
+    String bulkDeleteContacts(HttpServletRequest request, Model model) {
+        String[] stringIds = request.getParameterValues("selected_contact_ids");
+        Set<Long> ids = Arrays.stream(stringIds).map(Long::parseLong).collect(Collectors.toSet());
+        contactRepository.deleteAllById(ids);
+        model.addAttribute("contacts", contactRepository.findAll());
+        return "index";
     }
 
     @GetMapping("/contacts/count")
