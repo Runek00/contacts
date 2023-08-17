@@ -1,6 +1,7 @@
 package com.runek.contacts;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
@@ -174,9 +175,6 @@ public class ContactController {
     @GetMapping("/contacts/archive")
     String archiveCheckStatus(Model model) {
         Archiver archiver = Archiver.get();
-        if (archiver.status().equals(ArchStatus.WAITING)) {
-            archiver.run();
-        }
         model.addAttribute("archiver", archiver);
         return "archive";
     }
@@ -190,10 +188,11 @@ public class ContactController {
     }
 
     @GetMapping("/contacts/archive/file")
-    @ResponseBody
-    byte[] archiveFile(Model model) throws IOException {
+    void archiveFile(Model model, HttpServletResponse response) throws IOException {
         Archiver archiver = Archiver.get();
-        return Files.readAllBytes(archiver.archiveFilePath());
+        response.setContentType("text/plain");
+        response.setHeader("Content-Disposition", "attachment; filename=file.txt");
+        response.getOutputStream().write(Files.readAllBytes(archiver.archiveFilePath()));
     }
 
     private String validateEmailFinal(Long id, String email) {

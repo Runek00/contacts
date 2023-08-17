@@ -21,7 +21,7 @@
         </div>
     </div>
     <div th:case="'COMPLETE'">
-        <a hx-boost="false" href="/contacts/archive/file">Archive Ready! Click here to download. &downarrow;</a>
+        <a hx-boost="false" href="/contacts/archive/file" _="on load click() me">Archive Ready! Click here to download if it doesn't start automatically. &downarrow;</a>
         <button hx-delete="contacts/archive">Clear download</button>
     </div>
 </div>

@@ -21,6 +21,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.webjars.npm:htmx.org:1.9.3'
+	implementation group: 'org.webjars.npm', name: 'hyperscript.org', version: '0.9.11'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
