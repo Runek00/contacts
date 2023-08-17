@@ -14,6 +14,7 @@
         Like they made in hypermedia.systems!
     </h1>
 </header>
+<div th:replace="~{archive}"></div>
 <form action="/contacts" method="get" class="tool-bar">
     <label for="search">Search Term</label>
     <input id="search" type="search" name="q" th:value="${q}"
@@ -36,7 +37,7 @@
             <th></th>
         </tr>
         </thead>
-        <tbody th:insert="rows">
+        <tbody th:insert="~{rows}">
         </tbody>
     </table>
     <button hx-delete="/contacts"

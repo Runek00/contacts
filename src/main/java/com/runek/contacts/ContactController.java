@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -38,6 +40,7 @@ public class ContactController {
         model.addAttribute(
                 "contacts",
                 contactRepository.findAllByFirstName(q, 10, page * 10));
+        model.addAttribute("archiver", Archiver.get());
         if (page == 0 && !"search".equals(request.getHeader("HX-Trigger"))) {
             return "index";
         } else {
@@ -158,6 +161,31 @@ public class ContactController {
             error += "Email must be unique!\n";
         }
         return error;
+    }
+
+    @PostMapping("/contacts/archive")
+    String archiveStart(Model model) {
+        Archiver archiver = Archiver.get();
+        archiver.run();
+        model.addAttribute("archiver", archiver);
+        return "archive";
+    }
+
+    @GetMapping("/contacts/archive")
+    String archiveCheckStatus(Model model) {
+        Archiver archiver = Archiver.get();
+        if (archiver.status().equals(ArchStatus.WAITING)) {
+            archiver.run();
+        }
+        model.addAttribute("archiver", archiver);
+        return "archive";
+    }
+
+    @GetMapping("/contacts/archive/file")
+    @ResponseBody
+    byte[] archiveFile(Model model) throws IOException {
+        Archiver archiver = Archiver.get();
+        return Files.readAllBytes(archiver.archiveFilePath());
     }
 
     private String validateEmailFinal(Long id, String email) {

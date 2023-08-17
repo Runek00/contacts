@@ -1,0 +1,26 @@
+<div th:switch="${archiver.status().name()}"
+     id="archive-ui"
+     hx-target="this"
+     hx-swap="outerHTML">
+    <div th:case="'WAITING'">
+        <button hx-post="/contacts/archive">
+            Download Contact Archive
+        </button>
+    </div>
+    <div th:case="'RUNNING'"
+         hx-get="/contacts/archive"
+         hx-trigger="load delay:500ms">
+        Creating the archive...
+        <div class="progress">
+            <div class="progress-bar"
+                 role="progressbar"
+                 th:aria-valuenow="${archiver.progress()*100}"
+                 th:style="|width:${archiver.progress()*100}%|">
+            </div>
+        </div>
+    </div>
+    <div th:case="'COMPLETE'">
+        <a hx-boost="false" href="/contacts/archive/file">Archive Ready!  Click here to download. &downarrow;</a>
+    </div>
+</div>
+
