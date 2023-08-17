@@ -181,6 +181,14 @@ public class ContactController {
         return "archive";
     }
 
+    @DeleteMapping("/contacts/archive")
+    String archiveReset(Model model) {
+        Archiver archiver = Archiver.get();
+        archiver.reset();
+        model.addAttribute("archiver", archiver);
+        return "archive";
+    }
+
     @GetMapping("/contacts/archive/file")
     @ResponseBody
     byte[] archiveFile(Model model) throws IOException {

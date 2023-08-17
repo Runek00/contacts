@@ -47,11 +47,15 @@ public class Archiver {
         return (double) doneElements / (double) maxElements;
     }
 
-    public void reset() throws IOException {
+    public void reset() {
         runningThread.interrupt();
-        Files.delete(filePath);
+        try {
+            Files.delete(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        status = ArchStatus.WAITING;
         doneElements = 0;
-        run();
     }
 
     public Path archiveFilePath() {
