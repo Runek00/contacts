@@ -8,6 +8,7 @@
     <script src="/webjars/htmx.org/1.9.3/dist/htmx.min.js"></script>
     <script src="/webjars/hyperscript.org/0.9.11/dist/_hyperscript.min.js"></script>
     <script src="/overflowMenu.js"></script>
+    <script src="https://unpkg.com/alpinejs"></script>
 </head>
 <body hx-boost="true">
 <header>
@@ -28,7 +29,21 @@
     <img id="spinner" class="htmx-indicator" src="/img/spinning-circles.svg" alt="Request In Flight..."/>
     <input type="submit" value="Search"/>
 </form>
-<form>
+<form x-data="{ selected: [] }">
+    <template x-if="selected.length > 0">
+        <div class="box info tool-bar">
+            <slot x-text="selected.length"></slot>
+            contacts selected
+            <button type="button"
+                    class="bad bg color border"
+            @click="confirm(`Delete ${selected.length} contacts?`) &&
+htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })" >
+                Delete
+            </button>
+            <hr aria-orientation="vertical">
+            <button type="button" @click="selected = []">Cancel</button>
+        </div>
+    </template>
     <table>
         <thead>
         <tr>

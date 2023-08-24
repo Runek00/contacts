@@ -55,6 +55,7 @@ public class ContactController {
         Set<Long> ids = Arrays.stream(stringIds).map(Long::parseLong).collect(Collectors.toSet());
         contactRepository.deleteAllById(ids);
         model.addAttribute("contacts", contactRepository.findAll());
+        model.addAttribute("archiver", Archiver.get());
         return "index";
     }
 
