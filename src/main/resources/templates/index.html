@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head th:fragment="header">
     <meta charset="UTF-8">
     <title>Contacts App</title>
@@ -25,7 +25,8 @@
            hx-trigger="change, keyup delay:200ms changed"
            hx-target="tbody"
            hx-push-url="true"
-           hx-indicator="#spinner"/>
+           hx-indicator="#spinner"
+           _="on keydown[altKey and code is 'KeyS'] from the window me.focus()"/>
     <img id="spinner" class="htmx-indicator" src="/img/spinning-circles.svg" alt="Request In Flight..."/>
     <input type="submit" value="Search"/>
 </form>
@@ -36,8 +37,11 @@
             contacts selected
             <button type="button"
                     class="bad bg color border"
-            @click="confirm(`Delete ${selected.length} contacts?`) &&
-htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })" >
+                    @click="confirm(`Delete ${selected.length} contacts?`) &&
+                            htmx.ajax(
+                                'DELETE',
+                                '/contacts',
+                                { source: $root, target: document.body })">
                 Delete
             </button>
             <hr aria-orientation="vertical">
@@ -47,6 +51,7 @@ htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })" >
     <table>
         <thead>
         <tr>
+            <th></th>
             <th>First</th>
             <th>Last</th>
             <th>Phone</th>

@@ -40,7 +40,7 @@ public class ContactController {
         model.addAttribute("page", page);
         model.addAttribute(
                 "contacts",
-                contactRepository.findAllByFirstName(q, 10, page * 10));
+                contactRepository.findAllByName(q, 10, page * 10));
         model.addAttribute("archiver", Archiver.get());
         if (page == 0 && !"search".equals(request.getHeader("HX-Trigger"))) {
             return "index";
