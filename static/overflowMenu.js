@@ -1,5 +1,5 @@
 function overflowMenu(subtree = document) {
-    document.querySelectorAll("[data-overflow-menu]").forEach(menuRoot => {
+    subtree.querySelectorAll("[data-overflow-menu]").forEach(menuRoot => {
         const
         button = menuRoot.querySelector("[aria-haspopup]"),
         menu = menuRoot.querySelector("[role=menu]"),
@@ -38,9 +38,10 @@ function overflowMenu(subtree = document) {
             if (idx === -1) {
                 return 0;
             }
+            return idx;
         }
 
-        menu.addEventListener("keydown", e => {
+        menuRoot.addEventListener("keydown", e => {
             if(e.key === "ArrowUp") {
                 items[currentIndex() - 1]?.focus();
             } else if(e.key === "ArrowDown") {
@@ -52,8 +53,10 @@ function overflowMenu(subtree = document) {
             } else if(e.key === "End") {
                 items[items.length - 1].focus();
             } else if(e.key === "Escape") {
+                toggleMenu(false);
+                button.focus();
+            } else if(e.key === "Tab") {
                toggleMenu(false);
-               button.focus();
             }
         });
     });
