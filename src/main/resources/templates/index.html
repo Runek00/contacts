@@ -8,6 +8,7 @@
     <script src="/webjars/htmx.org/1.9.3/dist/htmx.min.js"></script>
     <script src="/webjars/hyperscript.org/0.9.11/dist/_hyperscript.min.js"></script>
     <script src="/overflowMenu.js"></script>
+    <script src="/sweetConfirm.js"></script>
     <script src="https://unpkg.com/alpinejs"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -36,17 +37,18 @@
         <div class="box info tool-bar">
             <slot x-text="selected.length"></slot>
             contacts selected
-            <button type="button"
+            <button id="bbb" type="button"
                     class="bad bg color border"
-                    @click="Swal.fire({
-                                title: 'Delete these contacts?',
-                                showCancelButton: true,
-                                confirmButtonText: 'Delete'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })
-                                }
-                            });">
+                    hx-delete="/contacts"
+                    hx-target="body"
+                    hx-trigger="confirmed"
+                    @click="sweetConfirm(
+                                $el,
+                                {
+                                    title: 'Delete these contacts?',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Delete'
+                                });">
                 Delete
             </button>
             <hr aria-orientation="vertical">
