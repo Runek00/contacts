@@ -9,6 +9,7 @@
     <script src="/webjars/hyperscript.org/0.9.11/dist/_hyperscript.min.js"></script>
     <script src="/overflowMenu.js"></script>
     <script src="https://unpkg.com/alpinejs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body hx-boost="true">
 <header>
@@ -37,11 +38,15 @@
             contacts selected
             <button type="button"
                     class="bad bg color border"
-                    @click="confirm(`Delete ${selected.length} contacts?`) &&
-                            htmx.ajax(
-                                'DELETE',
-                                '/contacts',
-                                { source: $root, target: document.body })">
+                    @click="Swal.fire({
+                                title: 'Delete these contacts?',
+                                showCancelButton: true,
+                                confirmButtonText: 'Delete'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    htmx.ajax('DELETE', '/contacts', { source: $root, target: document.body })
+                                }
+                            });">
                 Delete
             </button>
             <hr aria-orientation="vertical">
