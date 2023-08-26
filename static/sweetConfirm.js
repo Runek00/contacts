@@ -4,5 +4,5 @@ function sweetConfirm(elt, config) {
             if (result.isConfirmed) {
                 elt.dispatchEvent(new Event('confirmed'));
             }
-        })
+        });
 }
