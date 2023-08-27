@@ -14,12 +14,12 @@
         </p>
         <p>
             <label for="first_name">First Name</label>
-            <input name="first_name" id="first_name" type="text" placeholder="First Name" th:value="${contact.firstName()}?: ''">
+            <input name="firstName" id="first_name" type="text" placeholder="First Name" th:value="${contact.firstName()}?: ''">
             <span class="error" th:text="${contact.firstName()}"></span>
         </p>
         <p>
             <label for="last_name">Last Name</label>
-            <input name="last_name" id="last_name" type="text" placeholder="Last Name" th:value="${contact.lastName()}?: ''">
+            <input name="lastName" id="last_name" type="text" placeholder="Last Name" th:value="${contact.lastName()}?: ''">
             <span class="error" th:text="${contact.lastName()}"></span>
         </p>
         <p>

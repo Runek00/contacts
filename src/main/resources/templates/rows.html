@@ -1,6 +1,6 @@
 <tr th:each="contact: ${contacts}">
     <td>
-        <input type="checkbox" name="selected_contact_ids" th:value="${contact.id()}" x-model="selected">
+        <input type="checkbox" name="selectedContactIds" th:value="${contact.id()}" x-model="selected">
     </td>
     <td th:text="${contact.firstName()}"/>
     <td th:text="${contact.lastName()}"/>
