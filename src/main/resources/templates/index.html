@@ -10,6 +10,7 @@
     <script src="/overflowMenu.js"></script>
     <script src="https://unpkg.com/alpinejs"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/sse.js"></script>
 </head>
 <body hx-boost="true">
 <header>
@@ -31,6 +32,7 @@
     <img id="spinner" class="htmx-indicator" src="/img/spinning-circles.svg" alt="Request In Flight..."/>
     <input type="submit" value="Search"/>
 </form>
+<div id="yolo" name="sse" hx-ext="sse" sse-connect="/contacts/change_emitter" sse-swap="message"></div>
 <form x-data="{ selected: [] }">
     <template x-if="selected.length > 0">
         <div class="box info tool-bar">

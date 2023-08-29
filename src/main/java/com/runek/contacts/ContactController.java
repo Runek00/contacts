@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 public class ContactController {
 
     private final ContactRepository contactRepository;
+    private SseEmitter sseEmitter;
 
     @Autowired
     public ContactController(ContactRepository contactRepository) {
@@ -195,6 +197,11 @@ public class ContactController {
         response.getOutputStream().write(Files.readAllBytes(archiver.archiveFilePath()));
     }
 
+    @GetMapping("/contacts/change_emitter")
+    public SseEmitter contactsChanged() {
+        return this.sseEmitter = new SseEmitter(Long.MAX_VALUE);
+    }
+
     private String validateEmailFinal(Long id, String email) {
         String error = "";
         String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
@@ -211,5 +218,15 @@ public class ContactController {
             error += "Email must be unique!\n";
         }
         return error;
+    }
+
+    public void emitChange(String msg) {
+        try {
+            SseEmitter.SseEventBuilder event = SseEmitter.event()
+                    .data(msg);
+            this.sseEmitter.send(event);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

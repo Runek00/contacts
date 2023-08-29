@@ -7,16 +7,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
 public class ContactJsonController {
 
     private final ContactRepository contactRepository;
+    private final ContactController frontendController;
 
     @Autowired
-    public ContactJsonController(ContactRepository contactRepository) {
+    public ContactJsonController(ContactRepository contactRepository,
+                                 ContactController contactController) {
         this.contactRepository = contactRepository;
+        this.frontendController = contactController;
     }
 
     @GetMapping("/contacts")
@@ -30,6 +34,7 @@ public class ContactJsonController {
                        @RequestParam String email,
                        @RequestParam String phone) {
         Contact contact = new Contact(null, firstName, lastName, email, phone);
+        frontendController.emitChange(firstName + " " + lastName + " added");
         return this.contactRepository.save(contact);
     }
 
@@ -42,6 +47,7 @@ public class ContactJsonController {
                         HttpServletResponse response) throws IOException {
         if (contactRepository.existsById(id)) {
             Contact contact = new Contact(id, firstName, lastName, email, phone);
+            frontendController.emitChange(firstName + " " + lastName + " changed");
             return this.contactRepository.save(contact);
         } else {
             response.getOutputStream().write(("Contact with id " + id + " not present").getBytes());
@@ -53,8 +59,13 @@ public class ContactJsonController {
 
     @DeleteMapping("/contacts/{id}")
     Boolean deleteContact(@PathVariable Long id) {
-        if (contactRepository.existsById(id)) {
+        Optional<Contact> contact = contactRepository.findById(id);
+        if (contact.isPresent()) {
             this.contactRepository.deleteById(id);
+            frontendController.emitChange(
+                    contact.get().firstName() + " " +
+                            contact.get().lastName() +
+                            " deleted");
             return true;
         } else {
             return false;
